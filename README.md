@@ -16,8 +16,9 @@ simplepgsqlbackup
 Based off a script from the net somewhere.
 
 -adam
-```
-Adam Feuer
-adamf@pobox.com
-http://adamfeuer.com
-```
+
+    ```
+    Adam Feuer
+    adamf@pobox.com
+    http://adamfeuer.com
+    ```
