@@ -1,7 +1,7 @@
 Postgres Backup Tools
 ======================
 
-These are a couple of scripts I found useful in backing up Postgres datbases.
+These are some scripts I found useful in backing up Postgres datbases.
 
 I didn't write them; they are from other places on the net.
 
@@ -16,7 +16,7 @@ simplepgsqlbackup
 Based off a script from the net somewhere.
 
 -adam
-
-Adam Feuer
+```Adam Feuer
 adamf@pobox.com
 http://adamfeuer.com
+```
