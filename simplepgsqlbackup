@@ -1,0 +1,22 @@
+#!/bin/bash
+# compression_program can be gzip or bzip2
+COMPRESSION_PROGRAM=bzip2
+BACKUP_BASEDIR="/var/backups/postgres"
+LOGFILE="$BACKUP_BASEDIR/logs/simplepgsqlbackup.log"
+BACKUP_DIR="$BACKUP_BASEDIR/hourly"
+DATABASES=`psql -h localhost -U postgres -q -c "\l" | sed -n 4,/\eof/p | grep -v rows\) | grep -v template0 | grep -v template1 | grep -v postgres= | grep -v "^$" | awk {'print $1'}`
+
+touch $LOGFILE
+DATE_INFO=`date '+%Y-%m-%d %H:%M:%S'`
+echo "$DATE_INFO Starting backup of databases " >> $LOGFILE
+for i in $DATABASES; do
+        DATE_INFO=`date '+%Y-%m-%d %H:%M:%S'`
+        TIMESLOT=`date '+%Y-%m-%d-%H%M'`
+        /usr/bin/vacuumdb -z -h localhost -U postgres $i >/dev/null 2>&1
+        FILEPATH="$BACKUP_DIR/$i-database-$TIMESLOT.backup"
+        /usr/bin/pg_dump -U postgres -F c -b $i -h 127.0.0.1 -f $FILEPATH
+        $COMPRESSION_PROGRAM $FILEPATH
+        echo "$DATE_INFO Backup and Vacuum complete for database: $i " >> $LOGFILE
+done
+echo "$DATE_INFO Backup of all databases complete." >> $LOGFILE
+
